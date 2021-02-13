@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+    <persistence-unit name="db-jpa" transaction-type="JTA">
+        <jta-data-source>jdbc/db</jta-data-source>
+        <class>com.example.demo.entities.DiseaseEntity</class>
+        <class>com.example.demo.entities.DoctorEntity</class>
+        <class>com.example.demo.entities.PatientEntity</class>
+
+        <properties>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="javax.persistence.schema-generation.create-source" value="metadata"/>
+            <property name="javax.persistence.schema-generation.drop-source" value="metadata"/>
+            <property name="toplink.jdbc.url" value="jdbc:postgresql://192.168.99.100:5432/db"/>
+            <property name="toplink.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://192.168.99.100:5432/db"/>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="openjpa.ConnectionURL" value="jdbc:postgresql://192.168.99.100:5432/db"/>
+            <property name="openjpa.ConnectionDriverName" value="org.postgresql.Driver"/>
+            <property name="eclipselink.jdbc.url" value="jdbc:postgresql://192.168.99.100:5432/db"/>
+            <property name="eclipselink.jdbc.driver" value="org.postgresql.Driver"/>
+        </properties>
+    </persistence-unit>
+</persistence>
