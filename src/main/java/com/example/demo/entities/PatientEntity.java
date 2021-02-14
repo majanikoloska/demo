@@ -1,5 +1,9 @@
 package com.example.demo.entities;
 
+import com.example.demo.models.AuditModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -25,28 +29,30 @@ public class PatientEntity {
     public static final String GET_BY_LASTNAME = "PatientEntity.getByLastName";
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+
+    private Integer id;
     private String firstName;
     private String lastName;
 //    private Integer diseases;
 
-    @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name = "doctor_id")
+
+    @JsonIgnore
     private DoctorEntity doctor;
 
 
-    @OneToMany(fetch=FetchType.EAGER)
+//    @OneToMany(targetEntity= DiseaseEntity.class, mappedBy="patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @OneToMany(mappedBy = "patient")
+    @JsonIgnoreProperties("patient")
     private List<DiseaseEntity> diseases;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -71,7 +77,8 @@ public class PatientEntity {
     }
 
 //    @Basic
-
+    @ManyToOne
+    @JoinColumn(name= "doctor_id")
     public DoctorEntity getDoctor() {
         return doctor;
     }
@@ -80,6 +87,7 @@ public class PatientEntity {
         this.doctor = doctor;
     }
 
+    @OneToMany(targetEntity= DiseaseEntity.class, mappedBy="patient", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<DiseaseEntity> getDiseases() {
         return diseases;
     }
@@ -103,12 +111,13 @@ public class PatientEntity {
         PatientEntity that = (PatientEntity) o;
         return id == that.id &&
                 Objects.equals(firstName, that.firstName) &&
-                Objects.equals(lastName, that.lastName) &&
-                Objects.equals(diseases, that.diseases);
+                Objects.equals(lastName, that.lastName)
+//                && Objects.equals(diseases, that.diseases)
+                ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, diseases);
+        return Objects.hash(id, firstName, lastName);
     }
 }

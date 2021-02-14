@@ -1,5 +1,8 @@
 package com.example.demo.entities;
 
+import com.example.demo.models.AuditModel;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -22,14 +25,16 @@ public class DoctorEntity {
     public static final String GET_BY_DEPARTMENT = "DoctorEntity.getByDepartment";
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+
+    private Integer id;
     private String department;
 
-    @OneToMany(fetch=FetchType.EAGER)
+//    @OneToMany(targetEntity= PatientEntity.class, cascade = CascadeType.ALL, mappedBy="doctor", fetch = FetchType.EAGER)
+//    @OneToMany(mappedBy = "doctor")
+    @JsonIgnoreProperties("doctor")
     private List<PatientEntity> patients;
 
+    @OneToMany(targetEntity= PatientEntity.class, cascade = CascadeType.ALL, mappedBy="doctor", fetch = FetchType.EAGER)
     public List<PatientEntity> getPatients() {
         return patients;
     }
@@ -39,12 +44,13 @@ public class DoctorEntity {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

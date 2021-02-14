@@ -7,8 +7,10 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface DiseaseRepository extends JpaRepository {
+public interface DiseaseRepository extends JpaRepository<DiseaseEntity, Integer> {
 
-    @Query("SELECT d FROM DiseaseEntity d WHERE d.diseaseId = :id")
-    public List<DiseaseEntity> getDiseasesByPatientId(@Param("id") int id);
+//    @Query("SELECT d FROM DiseaseEntity d WHERE d.diseaseId = :id")
+//    public List<DiseaseEntity> getDiseasesByPatientId(@Param("id") Integer id);
+
+//    public List<DiseaseEntity> getDiseases();
 }
